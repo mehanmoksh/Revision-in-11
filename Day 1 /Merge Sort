@@ -1,0 +1,120 @@
+Problem link : {https://www.codingninjas.com/studio/problems/merge-sort_920442?leftPanelTabValue=PROBLEM}
+
+Code in cpp :
+
+//merge function
+void merge(vector<int> &arr, int s, int e) { 
+    //setting the mid 
+    int m = s + (e-s)/2;
+
+    //now make two arrays of new lengths
+    int len1 = m - s + 1; //starting to mid including it
+    int len2 = e - m; //mid to end including it
+
+    //two new arrays
+    //using pointers to point to the first element of given particular arrays
+    int *first = new int[len1];
+    int *second = new int[len2]; 
+
+    //now put the elements from the original array to the new array
+    //index of main array
+    int mai = s; //starting by default
+
+    for(int i=0; i<len1; i++){
+        first[i] = arr[mai++]; //simply copying elements here
+    }
+
+    //now simply change the index of main array
+    mai = m + 1;
+
+    for(int i=0; i<len2; i++){
+        second[i] = arr[mai++]; //simply copying elements here
+    }
+
+    //now put back the elements of newly made arrays to the original array
+    //make indexes of these two arrays
+    int index1 = 0; //first one's
+    int index2 = 0; //second one's
+
+    //set mai to s again
+    mai = s;
+
+    //condition will run until we empty both the arrays,i.e. i1 or i2 < len
+    while(index1 < len1 && index2 < len2){
+        //whichever's element is smaller, put it first
+        if(first[index1] < second[index2]){
+            arr[mai++] = first[index1++];
+        }else{
+            arr[mai++] = second[index2++];
+        }
+    }
+
+    //just for the sake of verying, again check the condtion by runing a loop
+    //outside, if in any case, the array left out with any element alongside
+
+    while(index1 < len1) 
+        arr[mai++] = first[index1++]; //this has been done if there's any case, only first array got eny element left out 
+
+    while(index2 < len2)
+        arr[mai++] = second[index2++];  //this has been done if there's any case, only second array got eny element left out 
+
+
+    //then delete both the arrays to avoid memory leak issue
+    delete []first;
+    delete []second;
+}
+
+
+void solve(vector < int > & arr, int s, int e){
+    //base case, if there is only one or no element present, then simply return the same array
+    if(s>=e) return;
+
+    //SETTING THE MID 
+    int m = s + (e-s)/2;
+    //sort left part
+    solve(arr, s, m); //from s till m
+    //sort right part
+    solve(arr, m + 1, e);
+
+    //then merge both the parts by calling the merge function from till e
+    merge(arr,s,e);
+}
+
+void mergeSort(vector < int > & arr, int n) {
+    // Write your code here.
+    //here its a void fucntion, so simply put the solution function
+    solve(arr,0,n-1); //sort it from 0th index till n-1
+}
+
+Complexity :
+
+Time Complexity:
+Best Case: O(n log n)
+
+The best-case scenario for Merge Sort occurs when the input array is already sorted or nearly sorted. 
+In such cases, the merging process becomes more efficient, resulting in a time complexity of O(n log n).
+
+Average Case: O(n log n)
+
+Merge Sort consistently exhibits a time complexity of O(n log n) in the average case. 
+The algorithm divides the array into halves and recursively sorts them before merging, 
+which contributes to its logarithmic time complexity.
+
+Worst Case: O(n log n)
+
+The worst-case time complexity of Merge Sort is also O(n log n). 
+This is because, regardless of the initial order of the elements, 
+the array is continually divided into halves until individual elements form separate arrays, and then the merging process begins.
+
+Space Complexity:
+
+Merge Sort has a space complexity of O(n).
+The space complexity is dominated by the auxiliary array used during the merging step. 
+In each recursive call, a temporary array is needed to merge the sorted subarrays. 
+The size of this auxiliary array is equal to the size of the input array. 
+However, in some implementations, it's possible to optimize space usage by alternating between two auxiliary arrays
+or using other techniques.
+
+In summary, Merge Sort provides a consistent O(n log n) time complexity in all cases, making it a reliable choice for sorting. 
+The space complexity is O(n), which is often acceptable, especially when dealing with linked lists or external storage where 
+random access is more expensive.
