@@ -1,0 +1,60 @@
+Problem link : {https://www.codingninjas.com/studio/problems/insertion-sort_3155179?source=youtube&campaign=love_babbar_codestudio2&utm_source=youtube&utm_medium=affiliate&utm_campaign=love_babbar_codestudio2&leftPanelTabValue=PROBLEM}
+
+Code in cpp :
+
+#include <bits/stdc++.h> 
+void insertionSort(int n, vector<int> &arr){
+    // Write your code here.
+    //here, we don't have to swap the elements
+    //we can simply or copy the elements(insert the element into other elem's place)
+    //run a loop for n-1 rounds
+
+    //by def. we are assuming 0th indexed elem as sorted, so start from 1
+    for(int i=1; i<n; i++){
+        //now store the current element into a temp space
+        int temp = arr[i];
+        //now run a loop
+        //declaring j outside to avoid scope issue
+        int j = i-1; //j will be as prev to i, till it be equal to 0th index
+        for( ; j>=0; j--){
+            if(arr[j]>temp){ //agr temp se bdha elem bhi koi exist krega 
+                arr[j+1] = arr[j];
+            }else{
+                break; //that shows if the next element is already sorted then come out of the loop
+            }
+        }
+        //now put temp's elem into j's next position
+        arr[j+1] = temp;
+    }
+}
+
+Time Complexity:
+
+Best Case: O(n)
+
+The best-case time complexity occurs when the input array is already sorted. 
+In this case, Insertion Sort can make a single pass through the array, comparing each element to its adjacent element and 
+making no swaps. The linear time complexity is O(n).
+Average Case: O(n^2)
+
+The average-case time complexity of Insertion Sort is O(n^2). In each pass through the array, 
+the algorithm compares and swaps elements until the entire array is sorted.
+
+Worst Case: O(n^2)
+
+The worst-case time complexity is O(n^2). This happens when the input array is in reverse order, 
+and Insertion Sort requires the maximum number of comparisons and swaps.
+
+Space Complexity:
+
+Insertion Sort has a space complexity of O(1).
+
+Similar to Bubble Sort and Selection Sort, Insertion Sort is an in-place sorting algorithm. 
+It doesn't require additional memory proportional to the input size, and its space complexity is constant, O(1). 
+Sorting is done by shifting elements within the input array.
+
+
+In summary, Insertion Sort is generally more efficient than Bubble Sort and Selection Sort in practice, 
+especially for small datasets or partially sorted arrays. It has a time complexity of O(n^2) in the average and worst cases, 
+but its best-case time complexity is O(n), 
+making it suitable for situations where the input is often partially ordered. Insertion Sort's advantage lies in its simplicity and ease of implementation.
