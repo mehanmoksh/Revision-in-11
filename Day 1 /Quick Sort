@@ -1,0 +1,99 @@
+5. Quick Sort
+
+Problem : {https://www.codingninjas.com/studio/problems/quick-sort_983625?leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=love_babbar_15&leftPanelTabValue=PROBLEM&customSource=studio_nav}
+
+Code in cpp:
+
+#include <bits/stdc++.h> 
+//this is going to be the most basic and core fucntion for this whole process
+//which is going to return us the pivotIndex from where the partition is going to happen
+
+int partition(vector<int>& arr, int s, int e){
+
+    //set pivot element as starting one
+    int pivot = arr[s];
+    //then have a count, how many are lesser than p
+    int count = 0;
+    //we have to run a loop, running from next element from the starting as
+    //starting one is already the pivot till the end to have a correct count
+    //run it till the end of the loop
+    for(int i = s + 1; i<=e; i++){
+        if(arr[i]<=pivot)   count++;
+    }
+
+    //now have set the pivotIndex
+    int pivotIndex = s + count;
+    //now swap the positions of starting and PI
+    swap(arr[pivotIndex],arr[s]);
+
+    //now we have to assure that there should be elements lesser than the 
+    //pivot at left side and higher at right side
+    //using two pointer approach
+    int i = s, j = e;
+    while(i<pivotIndex && j>pivotIndex){
+        //now check if they already exists, then move on
+        while(arr[i]<=pivot) i++;
+        while(arr[j]>pivot) j--;
+
+        //if not, then swap them
+        if(i<pivotIndex && j>pivotIndex)   
+            swap(arr[i++],arr[j--]);
+    }
+
+    return pivotIndex;
+}
+
+//it has nothing to return, just run a recursive function, which process starts
+//after we get to know the partition part
+void quick(vector<int>& arr, int s, int e){
+    
+    //base case, when only one or not any element exists
+    if(s>=e) return;
+    //firstly choose, which is the partition, which we gonna get from another method
+    int p = partition(arr,s,e);
+
+    //now simply sort the left and right part of the array
+    //left from s till p
+    quick(arr,s,p-1); //this is going to assure that every element before p, must be lesser than it
+
+    //now right from p+1 till e
+    quick(arr,p+1,e); //this is going to assure that every element after p, must be greater than it
+}
+
+vector<int> quickSort(vector<int> arr)
+{
+    // Write your code here.
+    //here we have just to apply direct quick sort function to the given array
+    quick(arr,0,arr.size()-1); //for say, name of the fucntion is quick
+    //running from its 0th index till the size - 1, n-1 rounds
+    return arr; //then return the array
+}
+
+
+Now its complexity :
+
+Time complexity : O(n log n)
+
+Best Case: O(n log n)
+The best-case scenario occurs when the pivot chosen in each partitioning step divides the array into two roughly equal halves. 
+In this case, the recursive calls efficiently reduce the problem size, leading to a time complexity of O(n log n).
+
+Average Case: O(n log n)
+On average, QuickSort performs well and has a time complexity of O(n log n). 
+The average case assumes a balanced partitioning, where the pivot divides the array into two nearly equal parts.
+
+Worst Case: O(n^2)
+The worst-case scenario happens when the pivot chosen in each partitioning step consistently leads to a highly unbalanced division of the array. 
+This results in a recurrence relation with a time complexity of O(n^2), where n is the number of elements in the array. 
+This worst-case behavior is less common and can be mitigated to some extent by selecting a good pivot strategy.
+
+Space Complexity ;
+QuickSort has a space complexity of O(log n) in the best and average cases.
+This space complexity is due to the recursive nature of the algorithm. 
+The stack space required for recursive function calls is proportional to the depth of the recursion tree.
+
+In the worst case, the space complexity could be O(n) if the recursion tree is skewed. 
+However, many implementations of QuickSort use tail recursion optimization or other techniques to limit the maximum stack depth, reducing the space complexity in practice.
+
+
+It is preferred over merge sort for sorting an array.
